@@ -1,6 +1,6 @@
 use serde::{Deserialize};
-use serde_json::Result;
-use reqwest::{Client, StatusCode, Url};
+
+use reqwest::{Client};
 
 fn main() {
     println!("Hello, world!");
@@ -58,7 +58,7 @@ async fn get_product() ->Product {
 
 #[cfg(test)]
 mod tests {
-    use std::{path::PathBuf, fs, clone};
+    use std::{path::PathBuf, fs};
 
     use super::*;
 

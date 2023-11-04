@@ -63,7 +63,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn deserialize_product() -> Result<()> {
+    fn deserialize_product() {
         let data = r#"{
             "code": "AGILE-FLEX-22-11-25",
             "direction": "IMPORT",
@@ -88,7 +88,7 @@ mod tests {
             ],
             "brand": "OCTOPUS_ENERGY"
         }"#;
-        let p: Product = serde_json::from_str(data)?;
+        let p: Product = serde_json::from_str(data).expect("parse to json");
         assert_eq!(p,
             Product{
                 code: "AGILE-FLEX-22-11-25".to_string(),
@@ -96,18 +96,17 @@ mod tests {
                 brand:"OCTOPUS_ENERGY".to_string()
             }
         );
-        Ok(())
     }
 
     #[test]
-    fn deserialize_products() -> Result<()> {
+    fn deserialize_products() {
         let mut d = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         d.push("resources");
         d.push("test");
         d.push("sample_products.json");
         let full_path_to_test_data =  d.display().to_string();
         let data = fs::read_to_string(full_path_to_test_data).expect("Should have loaded file");
-        let p: Products = serde_json::from_str(data.as_str())?;
+        let p: Products = serde_json::from_str(data.as_str()).expect("parse to json");
         let mut product_example = Products {
             results: Vec::new(),
         };
@@ -122,11 +121,11 @@ mod tests {
             x.display_name == "Agile Octopus"
         }).map(|x| x.to_owned()).collect();
         assert_eq!(our_product.len(), 1);
-        Ok(())
+
     }
 
     #[test]
-    fn test_get_product_from_string() -> Result<()> {
+    fn test_get_product_from_string() {
         let mut d = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         d.push("resources");
         d.push("test");
@@ -141,11 +140,11 @@ mod tests {
                 brand:"OCTOPUS_ENERGY".to_string()
             }
         );
-        Ok(())
+
     }
 
     #[tokio::test]
-    async fn test_get_product() -> Result<()> {
+    async fn test_get_product() {
         let product = get_product().await;
         assert_eq!(product,
             Product{
@@ -154,7 +153,6 @@ mod tests {
                 brand:"OCTOPUS_ENERGY".to_string()
             }
         );
-        Ok(())
     }
 
 }
